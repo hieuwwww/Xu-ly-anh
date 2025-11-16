@@ -1,5 +1,5 @@
 import os
-from stitcher import (
+from org_stitcher import (
     load_images,
     stitch_images,
     crop_black_borders,
