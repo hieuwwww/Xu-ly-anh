@@ -1,0 +1,39 @@
+:root{
+	--bg:#f4f7fb; --card:#ffffff; --muted:#6b7280; --accent:#2563eb; --accent-600:#1e40af;
+	--surface-border: #e6eefb; --shadow: 0 8px 30px rgba(15,23,42,0.06);
+}
+*{box-sizing:border-box}
+body{font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:#0f172a;margin:0;padding:18px}
+.container{max-width:1200px;margin:12px auto;background:transparent}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{font-size:28px}
+.title{font-weight:700;font-size:18px}
+.subtitle{font-size:12px;color:var(--muted)}
+.uploader{display:flex;gap:8px;align-items:center}
+.file-btn{background:#fff;border:1px solid var(--surface-border);padding:8px 12px;border-radius:8px;cursor:pointer}
+.file-btn input{display:none}
+.btn{padding:8px 14px;border-radius:9px;border:0;cursor:pointer;background:#eef2ff;color:var(--accent-600)}
+.btn.primary{background:linear-gradient(180deg,var(--accent),var(--accent-600));color:#fff;box-shadow:0 6px 18px rgba(37,99,235,0.18)}
+.meta{font-size:13px;color:var(--muted);margin-bottom:8px}
+
+.stacked{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--card);padding:12px;border-radius:10px;box-shadow:var(--shadow);border:1px solid var(--surface-border)}
+.panel-title{margin:0 0 12px 0;font-size:15px}
+
+.thumb-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.thumb-item{display:flex;flex-direction:column;gap:6px}
+.thumb.original{width:100%;height:240px;object-fit:cover;border-radius:10px;border:1px solid var(--surface-border);box-shadow:0 8px 26px rgba(12,18,36,0.06)}
+
+.thumbnails{display:grid;gap:12px}
+.thumbnails.big{grid-template-columns:1fr}
+.thumbnails.big .thumb{width:100%;height:auto;max-height:800px;object-fit:contain;border-radius:8px;border:1px solid var(--surface-border);box-shadow:0 8px 26px rgba(12,18,36,0.06)}
+
+.thumb.small{width:100%;height:140px;object-fit:cover}
+.small{font-size:12px}
+
+@media (max-width:900px){
+	.uploader{flex-direction:column;align-items:flex-end}
+	.thumb.original{height:160px}
+	.thumbnails.big .thumb{max-height:420px}
+}

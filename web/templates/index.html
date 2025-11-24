@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Ghép ảnh Panorama — Demo</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <nav class="topbar">
+        <div class="brand">
+          <div class="logo">📷</div>
+          <div>
+            <div class="title">Ghép ảnh Panorama</div>
+          </div>
+        </div>
+        <div class="uploader">
+          <label class="file-btn">
+            Chọn ảnh
+            <input id="files" type="file" multiple accept="image/*" />
+          </label>
+          <button id="uploadBtn" class="btn primary">Tải lên & Chạy</button>
+        </div>
+      </nav>
+
+      <div id="sessionInfo" class="meta muted">Không có session</div>
+
+      <main class="stacked">
+        <section class="panel">
+          <h3 class="panel-title">Ảnh gốc</h3>
+          <div id="originals" class="thumb-grid"></div>
+        </section>
+
+        <section class="panel">
+          <h3 class="panel-title">01 — Phát hiện keypoints</h3>
+          <div class="thumbnails big" id="kpThumbs"></div>
+        </section>
+
+        <section class="panel">
+          <h3 class="panel-title">02 — Ghép cặp (kề nhau)</h3>
+          <div class="thumbnails big" id="matchThumbs"></div>
+        </section>
+
+        <section class="panel">
+          <h3 class="panel-title">03 — Warp (B → A)</h3>
+          <div class="thumbnails big" id="warpThumbs"></div>
+        </section>
+
+        <section class="panel">
+          <h3 class="panel-title">04 — Kết quả cuối</h3>
+          <div class="thumbnails big" id="finalThumbs"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
