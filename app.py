@@ -189,8 +189,10 @@ def stitch_fast(session):
 
 
 
-def _warp_B_to_A(A, B, H):
-    # Similar to warp_and_blend: compute canvas and warp B
+def _warp_B_to_A(A, B, H, apply_exposure=True):
+    if apply_exposure:
+        gain = compute_exposure_gain(A, B, H)
+        B = apply_gain(B, gain)
     hA, wA = A.shape[:2]
     hB, wB = B.shape[:2]
     cornersB = np.float32([[0,0],[wB,0],[wB,hB],[0,hB]]).reshape(-1,1,2)
@@ -203,6 +205,40 @@ def _warp_B_to_A(A, B, H):
     result = cv2.warpPerspective(B, T @ H, (xmax - xmin, ymax - ymin))
     result[translation[1]:translation[1]+hA, translation[0]:translation[0]+wA] = A
     return result
+
+
+def compute_exposure_gain(A, B, H):
+    """
+    Tính gain cho B sao cho mean của B(overlap) ~ mean của A(overlap)
+    """
+    hA, wA = A.shape[:2]
+    hB, wB = B.shape[:2]
+
+    maskB = np.ones((hB, wB), dtype=np.uint8) * 255
+    maskB_warp = cv2.warpPerspective(maskB, H, (wA, hA))
+
+    overlap = (maskB_warp > 0)
+    if overlap.sum() < 100:
+        return 1.0
+
+    B_warp = cv2.warpPerspective(B, H, (wA, hA))
+
+    A_gray = cv2.cvtColor(A, cv2.COLOR_BGR2GRAY)
+    B_gray = cv2.cvtColor(B_warp, cv2.COLOR_BGR2GRAY)
+
+    meanA = A_gray[overlap].mean()
+    meanB = B_gray[overlap].mean()
+
+    if meanB < 1e-5:
+        return 1.0
+
+    gain = meanA / meanB
+    return gain
+
+
+def apply_gain(B, gain):
+    Bf = B.astype(np.float32) * gain
+    return np.clip(Bf, 0, 255).astype(np.uint8)
 
 
 def _image_response(img: np.ndarray):
